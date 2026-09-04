@@ -1,0 +1,2 @@
+short | Quantity: 4
+trouser | Quantity: 2

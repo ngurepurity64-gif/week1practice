@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -5,99 +7,201 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-    public class clothinginventorymanager {
+public class clothinginventorymanager {
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
-            // Get input from the user
-            Scanner scanner = new Scanner(System.in);
+        // Scanner gets input from the user
+        Scanner scanner = new Scanner(System.in);
 
-            // List stores the clothing names
-            List<String> clothes = new ArrayList<>();
+        // List stores the names of clothes
+        List<String> clothes = new ArrayList<>();
 
-            // Map stores the quantity of each clothing item
-            Map<String, Integer> quantities = new HashMap<>();
+        // Map stores the quantity of each clothing item
+        Map<String, Integer> quantities = new HashMap<>();
 
-            // Keeps the program running until the user chooses Exit
-            boolean running = true;
+        // Load previously saved clothes from the file
+        loadClothes(clothes, quantities);
 
-            while (running) {
+        // Controls whether the program continues running
+        boolean running = true;
 
-                System.out.println("\n=== CLOTHING INVENTORY MANAGER ===");
-                System.out.println("1. Add Clothing");
-                System.out.println("2. View Clothes");
-                System.out.println("3. Exit");
+        // Keep showing the menu until the user chooses Exit
+        while (running) {
 
-                System.out.print("Choose an option: ");
+            System.out.println("\n=== CLOTHING INVENTORY MANAGER ===");
+            System.out.println("1. Add Clothing");
+            System.out.println("2. View Clothes");
+            System.out.println("3. Exit");
 
-                try {
-                    int choice = scanner.nextInt();
+            System.out.print("Choose an option: ");
 
-                    if (choice == 1) {
+            try {
 
-                        // Add a clothing item
-                        System.out.print("Enter clothing name: ");
-                        String clothingName = scanner.next();
+                int choice = scanner.nextInt();
 
-                        System.out.print("Enter quantity: ");
+                // Option 1: Add clothing
+                if (choice == 1) {
 
-                        try {
-                            int quantity = scanner.nextInt();
+                    System.out.print("Enter clothing name: ");
+                    String clothingName = scanner.next();
 
-                            clothes.add(clothingName);
-                            quantities.put(clothingName, quantity);
+                    System.out.print("Enter quantity: ");
 
-                            System.out.println("Clothing added: " + clothingName);
+                    try {
 
-                        } catch (InputMismatchException e) {
+                        int quantity = scanner.nextInt();
 
-                            // Handle invalid quantity
-                            System.out.println("Please enter a valid number.");
-                            scanner.nextLine();
-                        }
+                        clothes.add(clothingName);
+                        quantities.put(clothingName, quantity);
 
-                    } else if (choice == 2) {
+                        // Save the clothing to the file
+                        saveClothing(clothingName, quantity);
 
-                        // Display available clothes
-                        if (clothes.isEmpty()) {
+                        System.out.println(
+                                "Clothing added and saved: "
+                                        + clothingName
+                        );
 
-                            System.out.println("No clothes available.");
+                    } catch (InputMismatchException e) {
 
-                        } else {
+                        // Handle invalid quantity input
+                        System.out.println(
+                                "Please enter a valid number."
+                        );
 
-                            System.out.println("Clothes available:");
+                        scanner.nextLine();
+                    }
 
-                            for (String clothing : clothes) {
+                }
 
-                                System.out.println(
-                                        "- " + clothing +
-                                                " | Quantity: " +
-                                                quantities.get(clothing)
-                                );
-                            }
-                        }
+                // Option 2: View clothes
+                else if (choice == 2) {
 
-                    } else if (choice == 3) {
+                    if (clothes.isEmpty()) {
 
-                        // Exit the program
-                        System.out.println("Goodbye!");
-                        running = false;
+                        System.out.println("No clothes available.");
 
                     } else {
 
-                        // Handle an invalid menu option
-                        System.out.println("Invalid choice.");
+                        System.out.println("\n=== AVAILABLE CLOTHES ===");
+
+                        // Loop through all clothing items
+                        for (String clothing : clothes) {
+
+                            System.out.println(
+                                    "- " + clothing
+                                            + " | Quantity: "
+                                            + quantities.get(clothing)
+                            );
+                        }
                     }
 
-                } catch (InputMismatchException e) {
-
-                    // Handle text entered instead of a menu number
-                    System.out.println("Please enter a number.");
-                    scanner.nextLine();
                 }
-            }
 
-            scanner.close();
+                // Option 3: Exit
+                else if (choice == 3) {
+
+                    System.out.println("Goodbye!");
+                    running = false;
+
+                }
+
+                // Handle invalid menu choices
+                else {
+
+                    System.out.println(
+                            "Invalid choice. Please choose 1-3."
+                    );
+                }
+
+            } catch (InputMismatchException e) {
+
+                // Handle text entered instead of a menu number
+                System.out.println(
+                        "Please enter a number."
+                );
+
+                scanner.nextLine();
+            }
+        }
+
+        scanner.close();
+    }
+
+    // Save clothing information to clothes.txt
+    public static void saveClothing(
+            String clothingName,
+            int quantity) {
+
+        try {
+
+            FileWriter writer =
+                    new FileWriter("clothes.txt", true);
+
+            writer.write(
+                    clothingName
+                            + " | Quantity: "
+                            + quantity
+                            + "\n"
+            );
+
+            writer.close();
+
+        } catch (IOException e) {
+
+            System.out.println(
+                    "Error saving clothing to file."
+            );
         }
     }
 
+    // Load saved clothing when the program starts
+    public static void loadClothes(
+            List<String> clothes,
+            Map<String, Integer> quantities) {
+
+        try {
+
+            java.io.File file =
+                    new java.io.File("clothes.txt");
+
+            if (!file.exists()) {
+                return;
+            }
+
+            Scanner fileScanner =
+                    new Scanner(file);
+
+            while (fileScanner.hasNextLine()) {
+
+                String line =
+                        fileScanner.nextLine();
+
+                String[] parts =
+                        line.split(" \\| Quantity: ");
+
+                if (parts.length == 2) {
+
+                    String clothingName = parts[0];
+                    int quantity =
+                            Integer.parseInt(parts[1]);
+
+                    clothes.add(clothingName);
+                    quantities.put(
+                            clothingName,
+                            quantity
+                    );
+                }
+            }
+
+            fileScanner.close();
+
+        } catch (IOException | NumberFormatException e) {
+
+            System.out.println(
+                    "Error loading saved clothes."
+            );
+        }
+    }
+}
