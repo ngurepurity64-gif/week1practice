@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class clothingsize {
+public class Clothingsize {
 
         public static void main(String[] args) {
 

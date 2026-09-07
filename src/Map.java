@@ -1,11 +1,10 @@
 import java.util.HashMap;
-import java.util.Map;
 
-public class map {
+public class Map {
 
     public static void main(String[] args) {
 
-        Map<Integer, String> students = new HashMap<>();
+        java.util.Map<Integer, String> students = new HashMap<>();
 
         students.put(1, "Ritah");
         students.put(2, "John");

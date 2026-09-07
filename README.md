@@ -23,8 +23,8 @@ The program allows the user to:
 
 This project demonstrates:
 - Classes and objects
-- Lists (`List`)
-- Maps (`Map`)
+- Lists
+- Ma
 - Loops
 - Conditional statements
 - Exception handling
