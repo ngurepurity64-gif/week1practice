@@ -1,2 +1,3 @@
-short | Quantity: 4
 trouser | Quantity: 2
+shirt | Quantity: 10
+short | Quantity: 4

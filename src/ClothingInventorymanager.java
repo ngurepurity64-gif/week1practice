@@ -1,9 +1,8 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -11,22 +10,16 @@ public class ClothingInventorymanager {
 
     public static void main(String[] args) {
 
-        // Scanner gets input from the user
         Scanner scanner = new Scanner(System.in);
 
-        // List stores the names of clothes
-        List<String> clothes = new ArrayList<>();
-
-        // Map stores the quantity of each clothing item
+        // Map is the single source of truth
         Map<String, Integer> quantities = new HashMap<>();
 
-        // Load previously saved clothes from the file
-        loadClothes(clothes, quantities);
+        // Load saved inventory
+        loadClothes(quantities);
 
-        // Controls whether the program continues running
         boolean running = true;
 
-        // Keep showing the menu until the user chooses Exit
         while (running) {
 
             System.out.println("\n=== CLOTHING INVENTORY MANAGER ===");
@@ -40,7 +33,6 @@ public class ClothingInventorymanager {
 
                 int choice = scanner.nextInt();
 
-                // Option 1: Add clothing
                 if (choice == 1) {
 
                     System.out.print("Enter clothing name: ");
@@ -52,11 +44,11 @@ public class ClothingInventorymanager {
 
                         int quantity = scanner.nextInt();
 
-                        clothes.add(clothingName);
+                        // Map stores the clothing and quantity
                         quantities.put(clothingName, quantity);
 
-                        // Save the clothing to the file
-                        saveClothing(clothingName, quantity);
+                        // Rewrite the entire file
+                        saveClothes(quantities);
 
                         System.out.println(
                                 "Clothing added and saved: "
@@ -65,7 +57,6 @@ public class ClothingInventorymanager {
 
                     } catch (InputMismatchException e) {
 
-                        // Handle invalid quantity input
                         System.out.println(
                                 "Please enter a valid number."
                         );
@@ -73,12 +64,9 @@ public class ClothingInventorymanager {
                         scanner.nextLine();
                     }
 
-                }
+                } else if (choice == 2) {
 
-                // Option 2: View clothes
-                else if (choice == 2) {
-
-                    if (clothes.isEmpty()) {
+                    if (quantities.isEmpty()) {
 
                         System.out.println("No clothes available.");
 
@@ -86,29 +74,24 @@ public class ClothingInventorymanager {
 
                         System.out.println("\n=== AVAILABLE CLOTHES ===");
 
-                        // Loop through all clothing items
-                        for (String clothing : clothes) {
+                        // Display directly from the Map
+                        for (Map.Entry<String, Integer> entry
+                                : quantities.entrySet()) {
 
                             System.out.println(
-                                    "- " + clothing
+                                    "- " + entry.getKey()
                                             + " | Quantity: "
-                                            + quantities.get(clothing)
+                                            + entry.getValue()
                             );
                         }
                     }
 
-                }
-
-                // Option 3: Exit
-                else if (choice == 3) {
+                } else if (choice == 3) {
 
                     System.out.println("Goodbye!");
                     running = false;
 
-                }
-
-                // Handle invalid menu choices
-                else {
+                } else {
 
                     System.out.println(
                             "Invalid choice. Please choose 1-3."
@@ -117,7 +100,6 @@ public class ClothingInventorymanager {
 
             } catch (InputMismatchException e) {
 
-                // Handle text entered instead of a menu number
                 System.out.println(
                         "Please enter a number."
                 );
@@ -129,22 +111,25 @@ public class ClothingInventorymanager {
         scanner.close();
     }
 
-    // Save clothing information to clothes.txt
-    public static void saveClothing(
-            String clothingName,
-            int quantity) {
+    // Rewrite the entire file instead of appending
+    public static void saveClothes(
+            Map<String, Integer> quantities) {
 
         try {
 
             FileWriter writer =
-                    new FileWriter("clothes.txt", true);
+                    new FileWriter("clothes.txt", false);
 
-            writer.write(
-                    clothingName
-                            + " | Quantity: "
-                            + quantity
-                            + "\n"
-            );
+            for (Map.Entry<String, Integer> entry
+                    : quantities.entrySet()) {
+
+                writer.write(
+                        entry.getKey()
+                                + " | Quantity: "
+                                + entry.getValue()
+                                + "\n"
+                );
+            }
 
             writer.close();
 
@@ -156,15 +141,14 @@ public class ClothingInventorymanager {
         }
     }
 
-    // Load saved clothing when the program starts
+    // Load saved clothing into the Map
     public static void loadClothes(
-            List<String> clothes,
             Map<String, Integer> quantities) {
 
         try {
 
-            java.io.File file =
-                    new java.io.File("clothes.txt");
+            File file =
+                    new File("clothes.txt");
 
             if (!file.exists()) {
                 return;
@@ -184,10 +168,10 @@ public class ClothingInventorymanager {
                 if (parts.length == 2) {
 
                     String clothingName = parts[0];
+
                     int quantity =
                             Integer.parseInt(parts[1]);
 
-                    clothes.add(clothingName);
                     quantities.put(
                             clothingName,
                             quantity
