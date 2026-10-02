@@ -1,64 +1,104 @@
-# Clothing Inventory Manager
+Week 1 Practice — Java Programming and Clothing Inventory Manager
 
-## Description
+Overview
 
-The Clothing Inventory Manager is a simple Java console application for managing clothing stock.
+This repository contains Java programming exercises and a console-based Clothing Inventory Manager developed as part of my programming coursework.
 
-The program allows the user to:
-- Add clothing items
-- Enter the quantity of each item
-- View available clothes and their quantities
-- Save clothing information to a file
-- Load previously saved clothing when the program starts
+The project demonstrates my understanding of fundamental Java programming concepts, basic inventory management, file persistence, exception handling, and introductory database schema design.
 
-## Technologies Used
+Project Objectives
 
-- Java
-- IntelliJ IDEA
-- Git
-- GitHub
-- SQL Server
+- Practise Java syntax and object-oriented programming fundamentals.
+- Develop small programs to solve basic programming problems.
+- Implement a menu-driven clothing inventory application.
+- Store and retrieve inventory data using file handling.
+- Practise database table design using SQL.
+- Apply Git and GitHub for version control and project management.
 
-## Java Concepts Practiced
+Main Application: Clothing Inventory Manager
 
-This project demonstrates:
-- Classes and objects
-- Lists
-- Ma
-- Loops
-- Conditional statements
-- Exception handling
-- File handling
-- User input using `Scanner`
+The Clothing Inventory Manager is a Java console application that allows users to:
 
-## Database
+- Add clothing items and their quantities.
+- View available clothing items and quantities.
+- Save inventory data to "clothes.txt".
+- Load previously saved inventory when the application starts.
+- Update an existing item's quantity by entering its name again.
 
-The project includes a SQL database schema called `ClothingStore`.
+A Java "Map" is used to manage clothing names and quantities, while file handling maintains inventory data between program runs.
 
-The database contains:
-- `Clothes`
-- `Customers`
-- `Orders`
-- `OrderItems`
+Other Java Exercises
 
-The database schema is stored in `schema.sql`.
+The "src/" directory contains additional programming exercises covering topics such as:
 
-## How to Run
+- Conditional statements and loops.
+- User input and output.
+- Classes and methods.
+- Collections and maps.
+- Exception handling.
+- Password checking.
+- Basic calculations and problem-solving.
 
-1. Clone or download the project from GitHub.
-2. Open the project in IntelliJ IDEA.
-3. Open the `src` folder.
-4. Run `ClothesManager.java`.
-5. Choose an option from the menu.
-6. Add clothing and quantities when prompted.
+Technologies and Tools
 
-## Future Improvements
+- Programming language: Java
+- Development environment: IntelliJ IDEA / Visual Studio Code
+- Version control: Git
+- Remote repository: GitHub
+- Database practice: SQL schema design
 
-Possible future features include:
-- Clothing photos
-- More clothing categories
-- Search and filtering
-- Shoe inventory
-- Customer accounts
-- Shopping cart
-- Clothing recommendations
+Repository Structure
+
+- "src/" — Java source files and programming exercises.
+- "clothes.txt" — File used to store clothing inventory data.
+- "schema.sql" — SQL database schema for the ClothingStore tables.
+- ".gitignore" — Files and directories excluded from version control.
+- "README.md" — Project documentation.
+
+Running the Clothing Inventory Manager
+
+Prerequisites
+
+- A compatible Java Development Kit (JDK).
+- A terminal or Java-compatible IDE.
+
+Instructions
+
+1. Clone the repository from GitHub.
+2. Open the project folder in your preferred IDE.
+3. Compile the Java source files.
+4. Run "ClothingInventoryManager.java".
+5. Follow the console menu instructions.
+
+From the project root, you can compile the source files using:
+
+"javac src\*.java"
+
+Then run the application from the project root using:
+
+"java -cp src ClothingInventoryManager"
+
+Database Schema
+
+The "schema.sql" file contains the proposed database structure for a clothing store, including:
+
+- "Clothes"
+- "Customers"
+- "Orders"
+- "OrderItems"
+
+The schema provides practice in organizing clothing inventory, customer information, and order-related data. Database connectivity from the Java application is not claimed here.
+
+Version Control
+
+Git is used to track changes throughout development, while GitHub hosts the repository for backup, review, and demonstration of development progress.
+
+Future Improvements
+
+Potential improvements include:
+
+- Input validation for clothing quantities.
+- Support for clothing names containing spaces.
+- Search and filtering functionality.
+- Database integration with the inventory application.
+- Automated tests and improved error handling.
