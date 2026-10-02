@@ -6,7 +6,7 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
-public class ClothingInventorymanager {
+public class ClothingInventoryManager {
 
     public static void main(String[] args) {
 

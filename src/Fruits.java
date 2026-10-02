@@ -1,4 +1,4 @@
-public class FRUITS {
+public class Fruits {
     public static void main(String[] args) {
 
         String[] fruits = {"Apple", "Mango", "Banana", "Orange"};
